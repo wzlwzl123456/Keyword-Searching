@@ -8,6 +8,7 @@
 using namespace std;
 FILE* fp;
 char location[MAX_ROOM];
+int level;
 char s1[MAX_ROOM];
 int total_num = 0;
 int switch_num = 0;
@@ -34,20 +35,28 @@ void openfile(const char* locate) {
 }/*打开文件*/
 void output() {
 	if (fclose(fp) == 0) {
-		printf("total num:%d\n", total_num);
-		printf("switch num:%d\n", switch_num);
-		printf("case num:");
-		for (int i = 1; i <= switch_num; i++) {
-			printf("%d", case_num[i]);
-			if (i == switch_num) {
-				printf("\n");
-			}
-			else {
-				printf(" ");
+		if (level >= 1) {
+			printf("total num:%d\n", total_num);
+		}
+		if (level >= 2) {
+			printf("switch num:%d\n", switch_num);
+			printf("case num:");
+			for (int i = 1; i <= switch_num; i++) {
+				printf("%d", case_num[i]);
+				if (i == switch_num) {
+					printf("\n");
+				}
+				else {
+					printf(" ");
+				}
 			}
 		}
-		printf("if_else num:%d\n", if_else_num);
-		printf("if_else_if num:%d\n", if_else_if_num);
+		if (level >= 3) {
+			printf("if_else num:%d\n", if_else_num);
+		}
+		if (level == 4) {
+			printf("if_else_if num:%d\n", if_else_if_num);
+		}
 	}
 }/*输出函数*/
 char* strrpc(char* str, char* oldstr, char* newstr) {
@@ -68,6 +77,7 @@ char* strrpc(char* str, char* oldstr, char* newstr) {
 int main() {
 	stack<int>st;
 	cin >> location;
+	cin >> level;
 	openfile(location);
 	while (!feof(fp)) {
 		fgets(s1, MAX_ROOM, fp);
