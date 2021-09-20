@@ -7,22 +7,11 @@
 #define MAX_ROOM 1024 
 using namespace std;
 FILE* fp;
-char location[MAX_ROOM];
-int level;
-char s1[MAX_ROOM];
 int total_num = 0;
 int switch_num = 0;
 int case_num[MAX_ROOM] = { 0 };
 int if_else_num = 0;
 int if_else_if_num = 0;
-int str_flag = 1;
-int annotation_flag1 = 0;
-int annotation_flag2 = 0;
-int len;
-int else_if_flag ;
-int top1;
-char oldstr[5][10] = { "else if","(",";",":","	" };//要替换掉的代码字符，有新的需替换代码可再添加
-char newstr[5][10] = { "elseif "," "," "," "," "};
 string key[33] = {"auto","break","case","char","const","continue","default","do","double","else",
 "enum","extern","float","for","goto","if","int","long","register","return","short","signed","sizeof",
 "static","struct","switch","typedef","union","unsigned","void","volatile","while","elseif"
@@ -33,7 +22,7 @@ void openfile(const char* locate) {
 		exit(1);
 	}
 }/*打开文件*/
-void output() {
+void output(int level) {
 	if (fclose(fp) == 0) {
 		if (level >= 1) {
 			printf("total num:%d\n", total_num);
@@ -75,6 +64,17 @@ char* strrpc(char* str, char* oldstr, char* newstr) {
 	return str;
 }/*字符数组子串替换*/
 int main() {
+	int level;//操作等级
+	char location[MAX_ROOM];//文件地址
+	int top1;
+	int str_flag = 1;//用于帮助处理字符串内容
+	int annotation_flag1 = 0;//帮助处理//型注释
+	int annotation_flag2 = 0;//帮助处理/**/型注释
+	char oldstr[5][10] = { "else if","(",";",":","	" };//要替换掉的原有代码字符，有新的需替换代码可再添加
+	char newstr[5][10] = { "elseif "," "," "," "," " };//替换的新代码字符
+	int len;
+	int else_if_flag;
+	char s1[MAX_ROOM];//存储每行
 	stack<int>st;
 	cin >> location;
 	cin >> level;
@@ -155,6 +155,6 @@ int main() {
 			}
 		}	
 	}
-	output();
+	output(level);
 	return 0;
 }
