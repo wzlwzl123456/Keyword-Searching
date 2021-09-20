@@ -20,8 +20,8 @@ int annotation_flag2 = 0;
 int len;
 int else_if_flag ;
 int top1;
-char oldstr[4][10] = { "else if","sizeof(","break;","default:"};
-char newstr[4][10] = { "elseif ","sizeof ","break ","default "};
+char oldstr[5][10] = { "else if","(",";",":","	" };//è¦æ›¿æ¢æ‰çš„ä»£ç å­—ç¬¦ï¼Œæœ‰æ–°çš„éœ€æ›¿æ¢ä»£ç å¯å†æ·»åŠ 
+char newstr[5][10] = { "elseif "," "," "," "," "};
 string key[33] = {"auto","break","case","char","const","continue","default","do","double","else",
 "enum","extern","float","for","goto","if","int","long","register","return","short","signed","sizeof",
 "static","struct","switch","typedef","union","unsigned","void","volatile","while","elseif"
@@ -31,7 +31,7 @@ void openfile(const char* locate) {
 		printf("can't open file\n");
 		exit(1);
 	}
-}/*´ò¿ªÎÄ¼ş*/
+}/*æ‰“å¼€æ–‡ä»¶*/
 void output() {
 	if (fclose(fp) == 0) {
 		printf("total num:%d\n", total_num);
@@ -49,7 +49,7 @@ void output() {
 		printf("if_else num:%d\n", if_else_num);
 		printf("if_else_if num:%d\n", if_else_if_num);
 	}
-}/*Êä³öº¯Êı*/
+}/*è¾“å‡ºå‡½æ•°*/
 char* strrpc(char* str, char* oldstr, char* newstr) {
 	char bstr[MAX_ROOM];
 	memset(bstr, 0, sizeof(bstr));
@@ -64,7 +64,7 @@ char* strrpc(char* str, char* oldstr, char* newstr) {
 	}
 	strcpy(str, bstr);
 	return str;
-}/*×Ö·ûÊı×é×Ó´®Ìæ»»*/
+}/*å­—ç¬¦æ•°ç»„å­ä¸²æ›¿æ¢*/
 int main() {
 	stack<int>st;
 	cin >> location;
@@ -72,24 +72,25 @@ int main() {
 	while (!feof(fp)) {
 		fgets(s1, MAX_ROOM, fp);
 		len = strlen(s1);
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 5; i++) {
 			strrpc(s1, oldstr[i], newstr[i]);
-		}//°ÑÒ»Ğ©ÌØÊâµÄ¹Ø¼ü×Ö¸Ä³É¿ÉÊ¶±ğµÄĞÎÊ½
+		}//æŠŠä¸€äº›ç‰¹æ®Šçš„ä»£ç å­—ç¬¦æ”¹æˆå¯è¯†åˆ«çš„å½¢å¼
+		
 		for (int i = 0; i < len; i++ ) {
-			if (s1[i] == '/' && s1[i + 1] == '/') {//È¥³ı//ĞÍ×¢ÊÍ
+			if (s1[i] == '/' && s1[i + 1] == '/') {//å»é™¤//å‹æ³¨é‡Š
 				annotation_flag1 = 1;
 			}
 			if (s1[i] == '\n') {
 				annotation_flag1 = 0;
 			}
-			if (s1[i] == '/' && s1[i + 1] == '*') {//È¥³ı/**/×¢ÊÍ
+			if (s1[i] == '/' && s1[i + 1] == '*') {//å»é™¤/**/æ³¨é‡Š
 				annotation_flag2 = 1;
 			}
 			if (s1[i] == '*' && s1[i + 1] == '/') {
 				s1[i] = s1[i + 1] = ' ';
 				annotation_flag2 = 0;
 			}
-			if (s1[i] == '"') {//È¥³ı""×Ö·û´®
+			if (s1[i] == '"') {//å»é™¤""å­—ç¬¦ä¸²
 				s1[i] = ' ';
 				str_flag = -str_flag;
 			}
@@ -102,10 +103,10 @@ int main() {
 		while (str1.good()) {
 			getline(str1, out1,' ');
 			if (!out1.empty()) {
-				cout << out1 << endl;
+				//cout << out1 << endl;
 				for (int i = 0; i < 33; i++) {
 					if (out1 == key[i]) {
-						total_num++; cout << total_num << endl;
+						total_num++; //cout << total_num << endl;
 						if (i == 25) {
 							switch_num++;
 						}
